@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="./home/css/base.css"/>
+		<link rel="stylesheet" type="text/css" href="./home/css/public.css"/>
+		<link rel="stylesheet" type="text/css" href="./home/css/index.css"/>
+		<link rel="stylesheet" type="text/css" href="./home/css/login.css"/>
+		<link rel="stylesheet" type="text/css" href="./home/css/register.css"/>
+		<style>
+			.message-email{
+				padding-top: 10px;
+			}
+			#btn{
+				margin-top: 10px;
+				outline: none;
+			}
+			#btn:active{
+				background-color: orange;
+				border: none;
+				padding: 7px 54px;
+				font-size: 23px;
+				color: white;
+				border-radius: 5px;
+				cursor: pointer;
+				outline: none;
+			}
+		</style>
+	</head>
+	<body>
+		<%- include('header.html') %>
+		<div id="content" class="content">
+			<div class="wrap">
+				<div class="login">
+					<h3>注册</h3>
+					<div class="group">
+						<label for="email"></label>
+						<input type="text" name="" id="email" value="" placeholder="邮箱"/>
+						<div class="message-email"></div>
+					</div>
+					<div class="group">
+						<label for="password" class="password"></label>
+						<input type="text" name="" id="password" value="" placeholder="密码"/>
+					</div>
+					<div class="group">
+						<label for="repassword" class="password"></label>
+						<input type="text" name="" id="repassword" value="" placeholder="确认密码"/>
+					</div>
+					<button id="btn">注册</button><br />
+					<a href="#">直接登录</a>
+
+				</div>
+			</div>
+		</div>
+		<%- include('footer.html') %>
+		<script src="/admin/js/jquery-2.0.3.min.js"></script>
+		<script>
+            $(function () {
+				$('#email').blur(function () {
+					// 发送请求
+					$.get('/getuser', {email: $('#email').val()}, function (result) {
+                        if (result.success === 'error') {
+                            $('.message-email').html(result.data).css('color','red');
+						} else {
+                            $('.message-email').html(result.data).css('color','green');
+						}
+                    })
+                })
+            })
+		</script>
+	</body>
+</html>

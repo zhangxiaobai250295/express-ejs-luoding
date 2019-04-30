@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="./home/css/base.css"/>
+		<link rel="stylesheet" type="text/css" href="./home/css/public.css"/>
+		<link rel="stylesheet" type="text/css" href="./home/css/index.css"/>
+		<link rel="stylesheet" type="text/css" href="./home/css/login.css"/>
+	</head>
+	<body>
+		<%- include('header.html') %>
+		<div id="content" class="content">
+			<div class="wrap">
+				<div class="login">
+					<h3>登录</h3>
+					<div class="group">
+						<label for="username"></label>
+						<input type="text" name="" id="username" value="" placeholder="Username"/>
+					</div>
+
+					<div class="group">
+						<label for="password" class="password"></label>
+						<input type="text" name="" id="password" value="" placeholder="Password"/>
+					</div>
+					<button id="btn">登录</button><br />
+					<a href="#">忘记密码</a>
+					<a href="#">注册登录</a>
+				</div>
+			</div>
+		</div>
+		<%- include('footer.html') %>
+	</body>
+</html>
