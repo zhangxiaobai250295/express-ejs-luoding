@@ -9,7 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="./home/css/login.css"/>
 		<link rel="stylesheet" type="text/css" href="./home/css/register.css"/>
 		<style>
-			.message-email{
+			.message-email,.message-password{
 				padding-top: 10px;
 			}
 			#btn{
@@ -36,16 +36,17 @@
 					<h3>注册</h3>
 					<div class="group">
 						<label for="email"></label>
-						<input type="text" name="" id="email" value="" placeholder="邮箱"/>
+						<input type="text" name="" id="email" value="" required placeholder="邮箱"/>
 						<div class="message-email"></div>
 					</div>
 					<div class="group">
 						<label for="password" class="password"></label>
-						<input type="text" name="" id="password" value="" placeholder="密码"/>
+						<input type="password" name="" id="password" value="" required placeholder="密码"/>
 					</div>
 					<div class="group">
 						<label for="repassword" class="password"></label>
-						<input type="text" name="" id="repassword" value="" placeholder="确认密码"/>
+						<input type="password" name="" id="repassword" value="" required placeholder="确认密码"/>
+						<div class="message-password"></div>
 					</div>
 					<button id="btn">注册</button><br />
 					<a href="#">直接登录</a>
@@ -64,6 +65,30 @@
                             $('.message-email').html(result.data).css('color','red');
 						} else {
                             $('.message-email').html(result.data).css('color','green');
+						}
+                    })
+                });
+                $('#btn').click(function () {
+                    if ($('#email').val() === '') {
+                        $('.message-email').html('邮箱不能为空').css('color','red');
+                        return;
+                    }
+					if ($('#password').val() === '' || $('#repassword').val() === '') {
+                        $('.message-password').html('密码不能为空').css('color','red');
+                        return;
+					}
+                    if ($('#password').val() !== $('#repassword').val()) {
+                        $('.message-password').html('两次密码输入不一致').css('color','red');
+                        return;
+                    }
+                    if ($('.message-email').text() === '邮箱不能为空') {
+                        alert($('.message-email').text());
+                        return;
+					}
+                    $.post('/register', {email: $('#email').val(), password: $('#password').val()}, function (result) {
+                        if (result.success === 'success') {
+                            alert(result.data);
+                            window.location.href = '/signin'
 						}
                     })
                 })

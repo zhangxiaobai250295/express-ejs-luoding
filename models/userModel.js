@@ -12,6 +12,21 @@ let userModel = {
             // console.log(result);
             callback(result[0]);
         })
+    },
+    register: function (data, callback) {
+        pool.query(userSqlMap.register, [data.email, data.password], function (err, result) {
+            if (err) throw err;
+            // console.log(result);
+            callback(result);
+        })
+    },
+    login: function (data, callback) {
+        // console.log(data);
+        pool.query(userSqlMap.login, [data.email, data.password], function (err, result) {
+            if (err) throw err;
+            // console.log(result[0]);
+            callback(result[0]);
+        })
     }
 };
 

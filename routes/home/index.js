@@ -19,6 +19,27 @@ router.get('/getuser', function (req, res) {
         }
     });
 });
+router.post('/register', function (req, res) {
+    // console.log(req.body);
+    userModel.register(req.body, function (data) {
+        if (data) {
+            res.json(result.createResult('success', '注册成功'));
+        }
+    })
+});
+
+// 处理登录逻辑
+router.post('/login', function (req, res) {
+    // console.log(req.body);
+    userModel.login(req.body, function (data) {
+        // console.log(data);
+        if (data) {
+            res.json(result.createResult('success', '登录成功'));
+        } else {
+            res.json(result.createResult('error', '用户名或者密码错误'));
+        }
+    })
+});
 
 router.get('/signin', function (req, res) {
     res.render('home/login')

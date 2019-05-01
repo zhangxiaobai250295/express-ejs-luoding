@@ -15,8 +15,8 @@
 				<div class="login">
 					<h3>登录</h3>
 					<div class="group">
-						<label for="username"></label>
-						<input type="text" name="" id="username" value="" placeholder="Username"/>
+						<label for="email"></label>
+						<input type="text" name="" id="email" value="" placeholder="Email"/>
 					</div>
 
 					<div class="group">
@@ -30,5 +30,24 @@
 			</div>
 		</div>
 		<%- include('footer.html') %>
+		<script src="/admin/js/jquery-2.0.3.min.js"></script>
+		<script>
+			$(function () {
+				$('#btn').click(function () {
+					if ($('#email').val() === '' || $('#password').val() === '') {
+					    alert('用户名或者密码不能为空')
+					}
+					$.post('/login',{email: $('#email').val(), password: $('#password').val()}, function (result) {
+                        // console.log(result);
+						if (result.success === 'error') {
+						    alert(result.data)
+                        } else {
+						    alert(result.data);
+                            window.location.href = '/admin'
+						}
+                    })
+                })
+            })
+		</script>
 	</body>
 </html>
