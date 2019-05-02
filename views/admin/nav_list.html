@@ -63,111 +63,31 @@
 								</thead>
 
 								<tbody>
-									<tr class="">
-
-
-										<td>
-											1
-										</td>
-										<td>首页</td>
-										<td class="hidden-480">/</td>
-
-										<td>显示</td>
-
-										<td>
-											<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-												<a href='./nav_edit.html' class="btn btn-xs btn-info">
-													<i class="icon-edit bigger-120"></i>
-													<!-- <a  style="color: white; text-decoration: none"></a> -->
-												</a>
-												&nbsp;
-												<button class="btn btn-xs btn-danger">
-													<i class="icon-trash bigger-120"></i>
-												</button>
-
-											</div>
-
-										</td>
-									</tr>
-									<tr class="">
-
-
-										<td>
-											2
-										</td>
-										<td>学习路线</td>
-										<td class="hidden-480">http://nodeing.com/class</td>
-
-										<td>显示</td>
-
-										<td>
-											<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-												<a href='./nav_edit.html' class="btn btn-xs btn-info">
-													<i class="icon-edit bigger-120"></i>
-													<!-- <a  style="color: white; text-decoration: none"></a> -->
-												</a>
-												&nbsp;
-												<button class="btn btn-xs btn-danger">
-													<i class="icon-trash bigger-120"></i>
-												</button>
-
-											</div>
-
-										</td>
-									</tr>
-									<tr class="">
-
-
-										<td>
-											3
-										</td>
-										<td>会员</td>
-										<td class="hidden-480">http://edu.nodeing.com/vip/</td>
-
-										<td>显示</td>
-
-										<td>
-											<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-												<a href='./nav_edit.html' class="btn btn-xs btn-info">
-													<i class="icon-edit bigger-120"></i>
-													<!-- <a  style="color: white; text-decoration: none"></a> -->
-												</a>
-												&nbsp;
-												<button class="btn btn-xs btn-danger">
-													<i class="icon-trash bigger-120"></i>
-												</button>
-
-											</div>
-
-										</td>
-									</tr>
-									<tr class="">
-
-
-										<td>
-											4
-										</td>
-										<td>转行就业班</td>
-										<td class="hidden-480">http://nodeing.com/zs</td>
-
-										<td>显示</td>
-
-										<td>
-											<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-												<a href='./nav_edit.html' class="btn btn-xs btn-info">
-													<i class="icon-edit bigger-120"></i>
-													<!-- <a  style="color: white; text-decoration: none"></a> -->
-												</a>
-												&nbsp;
-												<button class="btn btn-xs btn-danger">
-													<i class="icon-trash bigger-120"></i>
-												</button>
-
-											</div>
-
-										</td>
-									</tr>
-
+									<% data.forEach(function(item){ %>
+										<tr class="">
+											<td>
+												<%= item.id %>
+											</td>
+											<td><%= item.navname %></td>
+											<td class="hidden-480"><%= item.url %></td>
+											<% if(item.status === '显示'){ %>
+												<td>显示</td>
+											<% }else{ %>
+												<td>禁用</td>
+											<% } %>
+											<td>
+												<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
+													<a href='/admin/nav/edit/<%= item.id %>' class="btn btn-xs btn-info">
+														<i class="icon-edit bigger-120"></i>
+														<!-- <a  style="color: white; text-decoration: none"></a> -->
+													</a>&nbsp;
+													<button class="btn btn-xs btn-danger">
+														<i class="icon-trash bigger-120 delete"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+									<% }) %>
 								</tbody>
 							</table>
 						</div>
@@ -184,7 +104,19 @@
 
 
 		<%- include('footer.html') %>
-
+		<script>
+            $(function () {
+                $('.delete').click(function (ev) {
+                    var id = ev.target.parentNode.parentNode.parentNode.parentNode.firstElementChild.innerText;
+                    $.get('/admin/nav/delete',{id: id}, function (result) {
+                        if (result.success === 'success') {
+                            alert(result.data);
+                            window.location.reload();
+                        }
+                    })
+                })
+            })
+		</script>
 </body>
 </html>
 

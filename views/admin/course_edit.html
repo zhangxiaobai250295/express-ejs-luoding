@@ -48,7 +48,8 @@
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">课程名称:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" id="form-field-1" value="<%= data.coursename %>" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" id="id" hidden value="<%= data.id %>" placeholder="" class="col-xs-10 col-sm-5">
 								</div>
 							</div>
 
@@ -57,7 +58,7 @@
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-2">课程地址:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-2" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" id="form-field-2" value="<%= data.url %>" placeholder="" class="col-xs-10 col-sm-5">
 									<!-- <span class="help-inline col-xs-12 col-sm-7">
 										<span class="middle">如果填写则跳转到外部地址（选填）</span>
 									</span> -->
@@ -70,14 +71,13 @@
 								<div class="col-sm-10">
 									<select name="cate_id" id="cate_id" style="width:200px;">
 										<option value="0">--请选择分类--</option>
-										<option value="12">零基础入门</option>
-										<option value="11">进阶实战</option>
-										<option value="10">高级修炼</option>
-										<option value="10">战力强化</option>
-										<option value="10">移动开发</option>
-										<option value="10">python全栈</option>
+										<option value="零基础入门">零基础入门</option>
+										<option value="进阶实战">进阶实战</option>
+										<option value="高级修炼">高级修炼</option>
+										<option value="战力强化">战力强化</option>
+										<option value="移动开发">移动开发</option>
+										<option value="python全栈">python全栈</option>
 									</select>
-
 								</div>
 							</div>
 
@@ -85,26 +85,35 @@
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">课时数:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" id="form-field-3" value="<%= data.number %>" placeholder="" class="col-xs-10 col-sm-5">
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">是否完结:</label>
 
-								<div class="col-sm-10">
-									<label class="checkbox-inline">
-										<input type="radio" id="inlineCheckbox1" value="option1" name="status"> 完结
-									</label>
-									<label class="checkbox-inline">
-										<input type="radio" id="inlineCheckbox2" value="option2" name="status"> 更新中
-									</label>
+								<div class="col-sm-10" id="status">
+									<% if(data.status === '完结'){ %>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox1" checked value="完结" name="status"> 完结
+										</label>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox2" value="更新中" name="status"> 更新中
+										</label>
+									<% }else{ %>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox1_1" checked value="完结" name="status"> 完结
+										</label>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox2_2" checked value="更新中" name="status"> 更新中
+										</label>
+									<% } %>
 								</div>
 							</div>
 							<div class="form-group">
 
 								<div class="col-sm-6 center">
-									<button class="btn btn-primary">保存</button>
+									<button class="btn btn-primary" id="save">保存</button>
 									<button class="btn btn-danger">取消</button>
 								</div>
 							</div>
@@ -122,7 +131,27 @@
 
 
 		<%- include('footer.html') %>
-
+		<script>
+            $(function () {
+                $('#save').click(function (ev) {
+                    ev.preventDefault();
+                    $.post('/admin/course/edit_save',{
+                        id: $('#id').val(),
+                        coursename: $('#form-field-1').val(),
+                        url: $('#form-field-2').val(),
+                        category: $('#cate_id option:selected').val(),
+                        number: $('#form-field-3').val(),
+                        status: $('#status input:checked').val()
+                    }, function (result) {
+                        // console.log(result);
+                        if (result.success === 'success') {
+                            alert(result.data);
+                            window.location.href = '/admin/course/list'
+                        }
+                    })
+                })
+            })
+		</script>
 </body>
 </html>
 

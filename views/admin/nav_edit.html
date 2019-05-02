@@ -49,7 +49,8 @@
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">导航名称:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" id="form-field-1" value="<%= data.navname %>" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" id="id" hidden value="<%= data.id %>" placeholder="" class="col-xs-10 col-sm-5">
 								</div>
 							</div>
 
@@ -58,7 +59,7 @@
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-2">导航地址:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-2" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" id="form-field-2" value="<%= data.url %>" placeholder="" class="col-xs-10 col-sm-5">
 								</div>
 							</div>
 
@@ -66,13 +67,22 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">导航状态:</label>
 
-								<div class="col-sm-10">
-									<label class="checkbox-inline">
-										<input type="radio" id="inlineCheckbox1" value="option1" name="role"> 显示
-									</label>
-									<label class="checkbox-inline">
-										<input type="radio" id="inlineCheckbox2" value="option2" name="role"> 隐藏
-									</label>
+								<div class="col-sm-10" id="status">
+									<% if(data.status === '显示'){ %>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox1" checked value="显示" name="role"> 显示
+										</label>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox2" value="隐藏" name="role"> 隐藏
+										</label>
+									<% }else{ %>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox1_1" value="显示" name="role"> 显示
+										</label>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox2_2" checked value="隐藏" name="role"> 隐藏
+										</label>
+									<% } %>
 								</div>
 							</div>
 
@@ -80,7 +90,7 @@
 							<div class="form-group">
 
 								<div class="col-sm-6 center">
-									<button class="btn btn-primary">保存</button>
+									<button class="btn btn-primary" id="save">保存</button>
 									<button class="btn btn-danger">取消</button>
 								</div>
 							</div>
@@ -98,7 +108,25 @@
 
 
 		<%- include('footer.html') %>
-
+		<script>
+            $(function () {
+                $('#save').click(function (ev) {
+                    ev.preventDefault();
+                    $.post('/admin/nav/edit_save',{
+                        id: $('#id').val(),
+                        navname: $('#form-field-1').val(),
+                        url: $('#form-field-2').val(),
+                        status: $('#status input:checked').val()
+                    }, function (result) {
+                        // console.log(result);
+                        if (result.success === 'success') {
+                            alert(result.data);
+                            window.location.href = '/admin/nav/list'
+                        }
+                    })
+                })
+            })
+		</script>
 </body>
 </html>
 

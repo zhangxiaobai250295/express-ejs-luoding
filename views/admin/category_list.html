@@ -69,89 +69,29 @@
 								</thead>
 
 								<tbody>
-									<tr class="">
-
-
-										<td>
-											1
-										</td>
-										<td>零基础入门</td>
-										<td class="hidden-480">1</td>
-										<td>显示</td>
-										<td>/files/system/2018/01-19/15203538a67c790333.png</td>
-										<td>这里放置初级课程</td>
-
-										<td>
-											<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-
-
-												<a href='./category_edit.html' class="btn btn-xs btn-info">
-													<i class="icon-edit bigger-120"></i>
-													<!-- <a  style="color: white; text-decoration: none"></a> -->
-												</a>
-												&nbsp;
-												<button class="btn btn-xs btn-danger">
-													<i class="icon-trash bigger-120"></i>
-												</button>
-
-											</div>
-
-										</td>
-									</tr>
-
-									<tr class="">
-
-
-										<td>
-											2
-										</td>
-										<td>进阶实战</td>
-										<td class="hidden-480">2</td>
-										<td>显示</td>
-										<td>/files/system/2018/01-19/15203538a67c790333.png</td>
-										<td>这里放置进阶课程</td>
-
-										<td>
-											<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-
-												<button class="btn btn-xs btn-info">
-													<i class="icon-edit bigger-120"></i>
-												</button>
-												&nbsp;
-												<button class="btn btn-xs btn-danger">
-													<i class="icon-trash bigger-120"></i>
-												</button>
-
-											</div>
-
-										</td>
-									</tr>
-
-
-									<tr class="">
-
-
-										<td>
-											3
-										</td>
-										<td>高级修炼</td>
-										<td class="hidden-480">3</td>
-										<td>显示</td>
-										<td>/files/system/2018/01-19/15203538a67c790333.png</td>
-										<td>这里放置高级课程</td>
-
-										<td>
-											<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-												<button class="btn btn-xs btn-info">
-													<i class="icon-edit bigger-120"></i>
-												</button>
-												&nbsp;
-												<button class="btn btn-xs btn-danger">
-													<i class="icon-trash bigger-120"></i>
-												</button>
-											</div>
-										</td>
-									</tr>
+									<% data.forEach(function(item){ %>
+										<tr class="">
+											<td>
+												<%= item.id %>
+											</td>
+											<td><%= item.categoryname %></td>
+											<td class="hidden-480"><%= item.sort %></td>
+											<td><%= item.status %></td>
+											<td><%= item.imgurl %></td>
+											<td><%= item.describe %></td>
+											<td>
+												<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
+													<a href='/admin/category/edit/<%= item.id %>' class="btn btn-xs btn-info">
+														<i class="icon-edit bigger-120"></i>
+														<!-- <a  style="color: white; text-decoration: none"></a> -->
+													</a>&nbsp;
+													<button class="btn btn-xs btn-danger">
+														<i class="icon-trash bigger-120 delete"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+									<% }) %>
 								</tbody>
 							</table>
 						</div>
@@ -168,7 +108,19 @@
 
 
 		<%- include('footer.html') %>
-
+		<script>
+            $(function () {
+                $('.delete').click(function (ev) {
+                    var id = ev.target.parentNode.parentNode.parentNode.parentNode.firstElementChild.innerText;
+                    $.get('/admin/category/delete',{id: id}, function (result) {
+                        if (result.success === 'success') {
+                            alert(result.data);
+                            window.location.reload();
+                        }
+                    })
+                })
+            })
+		</script>
 </body>
 </html>
 

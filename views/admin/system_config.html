@@ -45,32 +45,34 @@
 						</div><!-- /.page-header -->
 
 					<form class="form-horizontal" role="form">
+
 							<div class="form-group">
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">网站标题:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" value="<%= data.title %>" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" value="<%= data.id %>" hidden id="id" placeholder="" class="col-xs-10 col-sm-5">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">网站副标题:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" value="<%= data.subheading %>" id="form-field-2" placeholder="" class="col-xs-10 col-sm-5">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">网站描述:</label>
 
 								<div class="col-sm-10">
-									<textarea id="form-field-1" placeholder="" class="col-xs-10 col-sm-5"></textarea>
+									<textarea id="form-field-3"  placeholder="" class="col-xs-10 col-sm-5"><%= data.describe %></textarea>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">网站logo:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" value="<%= data.logo %>" id="form-field-4" placeholder="" class="col-xs-10 col-sm-5">
 								</div>
 							</div>
 
@@ -78,7 +80,7 @@
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-2">管理员邮箱:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-2" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" value="<%= data.adminEmail %>" id="form-field-5" placeholder="" class="col-xs-10 col-sm-5">
 
 								</div>
 							</div>
@@ -87,7 +89,7 @@
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">二维码图片地址:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" value="<%= data.wechatLogo %>" id="form-field-6" placeholder="" class="col-xs-10 col-sm-5">
 								</div>
 							</div>
 
@@ -95,20 +97,20 @@
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">网站版权:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" value="<%= data.copyright %>" id="form-field-7" placeholder="" class="col-xs-10 col-sm-5">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">网站备案号:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" value="<%= data.info %>" id="form-field-8" placeholder="" class="col-xs-10 col-sm-5">
 								</div>
 							</div>
 							<div class="form-group">
 
 								<div class="col-sm-6 center">
-									<button class="btn btn-primary">保存</button>
+									<button class="btn btn-primary" id="save">保存</button>
 									<button class="btn btn-danger">取消</button>
 								</div>
 							</div>
@@ -126,7 +128,30 @@
 
 
 		<%- include('footer.html') %>
-
+		<script>
+            $(function () {
+                $('#save').click(function (ev) {
+                    ev.preventDefault();
+                    $.post('/admin/system/edit_save',{
+                        id: $('#id').val(),
+                        title: $('#form-field-1').val(),
+                        subheading: $('#form-field-2').val(),
+                        describe: $('#form-field-3').val(),
+                        logo: $('#form-field-4').val(),
+                        adminEmail: $('#form-field-5').val(),
+                        wechatLogo: $('#form-field-6').val(),
+                        copyright: $('#form-field-7').val(),
+                        info: $('#form-field-8').val()
+                    }, function (result) {
+                        // console.log(result);
+                        if (result.success === 'success') {
+                            alert(result.data);
+                            window.location.href = '/admin/system'
+                        }
+                    })
+                })
+            })
+		</script>
 </body>
 </html>
 

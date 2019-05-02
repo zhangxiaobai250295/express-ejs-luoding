@@ -49,7 +49,8 @@
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">分类名称:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" id="form-field-1" value="<%= data.categoryname %>" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" id="id" hidden value="<%= data.id %>" placeholder="" class="col-xs-10 col-sm-5">
 								</div>
 							</div>
 
@@ -58,7 +59,7 @@
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-2">分类排序号:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-2" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" id="form-field-2" value="<%= data.sort %>" placeholder="" class="col-xs-10 col-sm-5">
 								</div>
 							</div>
 
@@ -67,14 +68,14 @@
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">分类描述:</label>
 
 								<div class="col-sm-10">
-									<textarea type="password" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5"></textarea>
+									<textarea type="password"  id="form-field-3" placeholder="" class="col-xs-10 col-sm-5"><%= data.describe %></textarea>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">分类图标:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-2" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" id="form-field-4" value="<%= data.imgurl %>" placeholder="" class="col-xs-10 col-sm-5">
 								</div>
 							</div>
 
@@ -83,21 +84,28 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">分类状态:</label>
 
-								<div class="col-sm-10">
-									<label class="checkbox-inline">
-										<input type="radio" id="inlineCheckbox1" value="option1" name="role"> 显示
-									</label>
-									<label class="checkbox-inline">
-										<input type="radio" id="inlineCheckbox2" value="option2" name="role"> 隐藏
-									</label>
+								<div class="col-sm-10" id="status">
+									<% if(data.status === '显示'){ %>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox1" checked value="显示" name="role"> 显示
+										</label>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox2" value="隐藏" name="role"> 隐藏
+										</label>
+									<% }else{ %>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox1_1" checked value="显示" name="role"> 显示
+										</label>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox2_2" value="隐藏" name="role"> 隐藏
+										</label>
+									<% } %>
 								</div>
 							</div>
-
-
 							<div class="form-group">
 
 								<div class="col-sm-6 center">
-									<button class="btn btn-primary">保存</button>
+									<button class="btn btn-primary" id="save">保存</button>
 									<button class="btn btn-danger">取消</button>
 								</div>
 							</div>
@@ -115,7 +123,27 @@
 
 
 		<%- include('footer.html') %>
-
+		<script>
+            $(function () {
+                $('#save').click(function (ev) {
+                    ev.preventDefault();
+                    $.post('/admin/category/edit_save',{
+                        id: $('#id').val(),
+                        categoryname: $('#form-field-1').val(),
+                        sort: $('#form-field-2').val(),
+						describe: $('#form-field-3').val(),
+						imgurl: $('#form-field-4').val(),
+                        status: $('#status input:checked').val()
+                    }, function (result) {
+                        // console.log(result);
+                        if (result.success === 'success') {
+                            alert(result.data);
+                            window.location.href = '/admin/category/list'
+                        }
+                    })
+                })
+            })
+		</script>
 </body>
 </html>
 

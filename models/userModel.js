@@ -27,6 +27,42 @@ let userModel = {
             // console.log(result[0]);
             callback(result[0]);
         })
+    },
+    userList: function (data, callback) {
+        pool.query(userSqlMap.getUserList, function (err, result) {
+            if (err) throw err;
+            // console.log(result);
+            callback(result)
+        })
+    },
+    userAdd: function (data, callback) {
+        pool.query(userSqlMap.setUserAdd,[data.username,data.email,data.password,data.role,data.status], function (err, result) {
+            if (err) throw err;
+            // console.log(result);
+            callback(result)
+        })
+    },
+    getUserEdit: function (data, callback) {
+        // console.log(data);
+        pool.query(userSqlMap.getUserEdit, data, function (err, result) {
+            if (err) throw err;
+            // console.log(result);
+            callback(result[0]);
+        })
+    },
+    saveEadit: function (data, callback) {
+        pool.query(userSqlMap.getEditSave, [data.username,data.email,data.role,data.status,data.id], function (err, result) {
+            if (err) throw err;
+            // console.log(result[0]);
+            callback(result[0]);
+        })
+    },
+    getDelete: function (data, callback) {
+        pool.query(userSqlMap.delete,data.id, function (err,result) {
+            if (err) throw err;
+            // console.log(result);
+            callback(result)
+        })
     }
 };
 

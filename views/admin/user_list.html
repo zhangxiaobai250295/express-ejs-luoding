@@ -68,111 +68,39 @@
 								</thead>
 
 								<tbody>
-									<tr class="">
-
-
-										<td>
-											1
-										</td>
-										<td>json</td>
-										<td class="hidden-480">3,330</td>
-										<td>管理员</td>
-										<td>Feb 12</td>
-
-										<td class="hidden-480">
-												<button class="btn btn-xs btn-success">
-													<i class="icon-ok bigger-120 success"></i>
-												</button>
-										</td>
-
-										<td>
-											<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-
-
-												<a href='./user_edit.html' class="btn btn-xs btn-info">
-													<i class="icon-edit bigger-120"></i>
-													<!-- <a  style="color: white; text-decoration: none"></a> -->
-												</a>
-												&nbsp;
-												<button class="btn btn-xs btn-danger">
-													<i class="icon-trash bigger-120"></i>
-												</button>
-
-											</div>
-
-										</td>
-									</tr>
-
-									<tr class="">
-
-
-										<td>
-											2
-										</td>
-										<td>lisa</td>
-										<td class="hidden-480">3,330</td>
-										<td>普通用户</td>
-										<td>Feb 12</td>
-
-										<td class="hidden-480">
-												<button class="btn btn-xs btn-success">
-													<i class="icon-ok bigger-120"></i>
-												</button>
-										</td>
-
-										<td>
-											<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-
-
-												<button class="btn btn-xs btn-info">
-													<i class="icon-edit bigger-120"></i>
-												</button>
-												&nbsp;
-												<button class="btn btn-xs btn-danger">
-													<i class="icon-trash bigger-120"></i>
-												</button>
-
-											</div>
-
-										</td>
-									</tr>
-
-
-									<tr class="">
-
-
-										<td>
-											3
-										</td>
-										<td>nodeing</td>
-										<td class="hidden-480">3,330</td>
-										<td>管理员</td>
-										<td>Feb 12</td>
-
-										<td class="hidden-480">
-												<button class="btn btn-xs btn-success">
-													<i class="icon-ok bigger-120"></i>
-												</button>
-										</td>
-
-										<td>
-											<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-
-
-												<button class="btn btn-xs btn-info">
-													<i class="icon-edit bigger-120"></i>
-												</button>
-												&nbsp;
-												<button class="btn btn-xs btn-danger">
-													<i class="icon-trash bigger-120"></i>
-												</button>
-
-											</div>
-
-										</td>
-									</tr>
-
-
+									<% data.forEach(function(item) { %>
+										<tr class="">
+											<td>
+												<%= item.id %>
+											</td>
+											<td><%= item.username %></td>
+											<td class="hidden-480"><%= item.email %></td>
+											<td><%= item.role %></td>
+											<td><%= item.create_time %></td>
+											<td class="hidden-480">
+												<% if(item.status === 0){ %>
+													<button class="btn btn-xs btn-success">
+														<i class="icon-ok bigger-120 success"></i>
+													</button>
+												<% }else { %>
+													<button class="btn btn-xs btn-danger">
+														<i class="icon-remove bigger-120 success"></i>
+													</button>
+												<% } %>
+											</td>
+											<td>
+												<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
+													<a href='/admin/user/edit/<%= item.id %>' class="btn btn-xs btn-info edit">
+														<i class="icon-edit bigger-120"></i>
+														<!-- <a  style="color: white; text-decoration: none"></a> -->
+													</a>&nbsp;
+													<button class="btn btn-xs btn-danger ">
+														<i class="icon-trash bigger-120 delete"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+									<% }) %>
 								</tbody>
 							</table>
 						</div>
@@ -187,8 +115,20 @@
 			</a>
 		</div><!-- /.main-container -->
 
-
 		<%- include('footer.html') %>
+		<script>
+            $(function () {
+                $('.delete').click(function (ev) {
+                    var id = ev.target.parentNode.parentNode.parentNode.parentNode.firstElementChild.innerText;
+                    $.get('/admin/user/delete',{id: id}, function (result) {
+						if (result.success === 'success') {
+						    alert(result.data);
+						    window.location.reload();
+						}
+                    })
+                })
+            })
+		</script>
 
 </body>
 </html>

@@ -69,10 +69,10 @@
 
 								<div class="col-sm-10">
 									<label class="checkbox-inline">
-										<input type="radio" id="inlineCheckbox1" value="option1" name="role"> 显示
+										<input type="radio" id="inlineCheckbox1" value="显示" name="status"> 显示
 									</label>
 									<label class="checkbox-inline">
-										<input type="radio" id="inlineCheckbox2" value="option2" name="role"> 隐藏
+										<input type="radio" id="inlineCheckbox2" value="隐藏" name="status"> 隐藏
 									</label>
 								</div>
 							</div>
@@ -81,7 +81,7 @@
 							<div class="form-group">
 
 								<div class="col-sm-6 center">
-									<button class="btn btn-primary">保存</button>
+									<button class="btn btn-primary" id="submit">保存</button>
 									<button class="btn btn-danger">取消</button>
 								</div>
 							</div>
@@ -99,6 +99,28 @@
 
 
 		<%- include('footer.html') %>
+		<script>
+			$(function () {
+                $('#submit').click(function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        type: 'post',
+                        url: '/admin/nav/nav_add',
+                        data: {
+                            navname: $('#form-field-1').val(),
+                            url: $('#form-field-2').val(),
+                            status: $("input[name='status']:checked").val()
+                        },
+                        success: function (result) {
+                            if (result.success === 'success') {
+                                alert(result.data);
+                                window.location.href = '/admin/nav/list';
+                            }
+                        }
+                    })
+                })
+            })
+		</script>
 
 </body>
 </html>

@@ -49,7 +49,8 @@
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">用户名:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5" value="<%= data.username %>">
+									<input type="text" hidden id="user-id" placeholder="" class="col-xs-10 col-sm-5" value="<%= id %>">
 								</div>
 							</div>
 
@@ -58,7 +59,7 @@
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-2">邮箱:</label>
 
 								<div class="col-sm-10">
-									<input type="text" id="form-field-2" placeholder="" class="col-xs-10 col-sm-5">
+									<input type="text" id="form-field-2" value="<%= data.email %>" placeholder="" class="col-xs-10 col-sm-5">
 
 								</div>
 							</div>
@@ -66,33 +67,51 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">角色:</label>
 
-								<div class="col-sm-10">
-									<label class="checkbox-inline">
-										<input type="radio" id="inlineCheckbox1" value="option1" name="role"> 管理员
-									</label>
-									<label class="checkbox-inline">
-										<input type="radio" id="inlineCheckbox2" value="option2" name="role"> 普通用户
-									</label>
+								<div class="col-sm-10" id="role">
+									<% if(data.role === '管理员'){ %>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox1" checked value="管理员"  name="role"> 管理员
+										</label>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox2"  value="普通用户" name="role"> 普通用户
+										</label>
+									<% }else{ %>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox1_1"  value="管理员"  name="role"> 管理员
+										</label>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox2_2" checked  value="普通用户" name="role"> 普通用户
+										</label>
+									<% } %>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="col-sm-2 control-label no-padding-right" for="form-field-1">状态:</label>
 
-								<div class="col-sm-10">
-									<label class="checkbox-inline">
-										<input type="radio" id="inlineCheckbox1" value="option1" name="status"> 激活
-									</label>
-									<label class="checkbox-inline">
-										<input type="radio" id="inlineCheckbox2" value="option2" name="status"> 禁用
-									</label>
+								<div class="col-sm-10" id="status">
+									<% if(data.role === '激活'){ %>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox3" checked value="激活" name="status"> 激活
+										</label>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox4" value="禁用" name="status"> 禁用
+										</label>
+									<% }else{ %>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox3_3" checked value="激活" name="status"> 激活
+										</label>
+										<label class="checkbox-inline">
+											<input type="radio" id="inlineCheckbox4_4" value="禁用" name="status"> 禁用
+										</label>
+									<% } %>
 								</div>
 							</div>
 							<div class="form-group">
 
 								<div class="col-sm-6 center">
-									<button class="btn btn-primary">保存</button>
-									<button class="btn btn-danger">取消</button>
+									<button class="btn btn-primary" id="save">保存</button>
+									<button class="btn btn-danger" id="cancel">取消</button>
 								</div>
 							</div>
 					</form>
@@ -109,7 +128,26 @@
 
 
 		<%- include('footer.html') %>
-
+		<script>
+			$(function () {
+				$('#save').click(function (ev) {
+				    ev.preventDefault();
+					$.get('/admin/user/edit_save',{
+					    id: $('#user-id').val(),
+					    username: $('#form-field-1').val(),
+						email: $('#form-field-2').val(),
+						role: $('#role input:checked').val(),
+                        status: $('#status input:checked').val()
+					}, function (result) {
+                        // console.log(result);
+                        if (result.success === 'success') {
+						    alert(result.data);
+						    window.location.href = '/admin/user/list'
+						}
+                    })
+                })
+            })
+		</script>
 </body>
 </html>
 
