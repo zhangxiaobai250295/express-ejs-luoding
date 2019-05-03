@@ -5,7 +5,7 @@ const navSqlMap = require('../libs/navSqlMap');
 
 let navModel = {
     navList: function (data, callback) {
-        pool.query(navSqlMap.getNavList,function (err,result) {
+         pool.query(navSqlMap.getNavList,function (err,result) {
             if (err) throw err;
             // console.log(result);
             callback(result)

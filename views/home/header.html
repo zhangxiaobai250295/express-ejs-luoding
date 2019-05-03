@@ -8,17 +8,19 @@
 <div id="top" class="top">
     <div class="wrap">
         <div class="logo center" id="navLogo">
-            <img src="./home/img/index/logo.png"/>
+            <img src="<%= system.logo %>"/>
         </div>
         <div class="nav" id="nav">
-            <a href="/" class="active">首页</a>
-            <a href="#">学习路线</a>
-            <a href="#">会员</a>
-            <a href="#">转行就业班</a>
+            <% nav.forEach(function(item){ %>
+                <a href="<%= item.url %>"><%= item.navname %></a>
+                <!--<a href="#">学习路线</a>-->
+                <!--<a href="#">会员</a>-->
+                <!--<a href="#">转行就业班</a>-->
+            <% }) %>
             <span>
-						<a href="/signin">登录</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-						<a href="/signup">注册</a>
-					</span>
+				<a href="/signin">登录</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+				<a href="/signup">注册</a>
+			</span>
         </div>
     </div>
 </div>

@@ -38,6 +38,13 @@ let courseModel = {
             // console.log(result[0]);
             callback(result[0])
         })
+    },
+    getCategoryCourse: function (data, callback) {
+        pool.query(courseSqlMap.getCategoryCourseList,data, function (err, result) {
+            if (err) throw err;
+            // console.log(result[0]);
+            callback(result)
+        })
     }
 };
 

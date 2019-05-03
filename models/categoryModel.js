@@ -40,6 +40,13 @@ let categoryModel = {
             // console.log(result[0]);
             callback(result[0])
         })
+    },
+    getCategoryUrl: function (data, callback) {
+        pool.query(categorySqlMap.getOneCategory,data, function (err, result) {
+            if (err) throw err;
+            // console.log(result[0]);
+            callback(result[0].imgurl)
+        })
     }
 };
 

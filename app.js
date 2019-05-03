@@ -5,6 +5,7 @@ const package = require('./package'); // 引入项目依赖包配置文件
 const path = require('path');
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
+const cookie = require('cookie');
 
 const admin = require('./routes/admin'); // 引入后台相关的路由
 const home = require('./routes/home'); // 引入前台相关的路由

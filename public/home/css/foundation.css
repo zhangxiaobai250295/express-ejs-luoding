@@ -2,11 +2,11 @@
 	background-color: #F7F9F9;
 	background-image: none;
 }
-.group-list{
-	height: 651px;
-	background: url(../img/bag/bg7.png) no-repeat ;
-	background-size: auto;
-}
+/*.group-list{*/
+	/*height: 651px;*/
+	/*background: url(/home/img/bag/bg7.png) no-repeat ;*/
+	/*background-size: auto;*/
+/*}*/
 .group-list h2{
 	padding-top: 23px;
     padding-left: 121px;
